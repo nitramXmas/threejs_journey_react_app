@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 const Clicker = ({keyName, color, increment}) => 
   {
     //initialisation du count avec le contenu du locaStorage s'il existe, evite le double-render au premier chargement si dans le premier useEffect dessous
     
-    let [count, setCount] = useState(parseInt(localStorage.getItem(keyName) ?? 0)); 
-  
+    const [count, setCount] = useState(parseInt(localStorage.getItem(keyName) ?? 0)); 
+    const buttonRef = useRef();
+    
     useEffect(() => 
     {
+        buttonRef.current.style.backgroundColor ='papayawhip'
+        buttonRef.current.style.color ='salmon'
         return () => 
           {
             localStorage.removeItem(keyName);     //cleans the localStorage when the component is 'destroyed'
@@ -28,7 +31,7 @@ const Clicker = ({keyName, color, increment}) =>
     return (
       <div>
         <div style={{color: color}}>Clicks count: {count}</div>
-        <button onClick={buttonClick}>Click me</button>
+        <button ref={buttonRef} onClick={buttonClick}>Click me</button>
       </div>
     );
   };
